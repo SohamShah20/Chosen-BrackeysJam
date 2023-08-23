@@ -16,6 +16,11 @@ public class EnemyScript : MonoBehaviour
     float playerDistancex;
     float playerDistancey;
     float playerDistance;
+    float phantomx;
+    float phantomy;
+    float phantomDistance;
+    float retreatRange;
+    bool retreat;
 
     //checking for x and y directions
     void checkDir()
@@ -41,7 +46,15 @@ public class EnemyScript : MonoBehaviour
     //enemy shooting
     void shoot(float timeGap)
     {
-        shootCooldown += Time.deltaTime;
+        if  (enemy1HP > 30)
+        {
+            shootCooldown += Time.deltaTime;
+        }
+        else
+        {
+            shootCooldown += 2 * Time.deltaTime;
+        }
+        
         if (shootCooldown > timeGap)
         {
             Instantiate(enemybullet, transform.position + new Vector3(7.8f * xdirection, 7.8f * ydirection, 0), transform.rotation);
@@ -55,6 +68,8 @@ public class EnemyScript : MonoBehaviour
         transform.position = new Vector3(0, 20, 0);
         enemy1HP = 100;
         shootCooldown = 0;
+        retreatRange = 30;
+        retreat = false;
     }
 
     // Update is called once per frame
@@ -63,18 +78,39 @@ public class EnemyScript : MonoBehaviour
         playerDistancex = player.transform.position.x - transform.position.x;
         playerDistancey = player.transform.position.y - transform.position.y;
         playerDistance = Mathf.Sqrt(playerDistancex * playerDistancex + playerDistancey * playerDistancey);
+        phantomDistance = (Mathf.Sqrt((phantomx - transform.position.x) * (phantomx - transform.position.x) + (phantomy - transform.position.y) *
+            (phantomy - transform.position.y)));
 
-        //chase player up to a certain distance
-        if (playerDistance > 30)
+        if (!retreat)
         {
-            enemy1Body.velocity = (new Vector2(playerDistancex, playerDistancey)) * enemy1Speed / playerDistance;
-            shoot(1.5f);
+            //chase player up to a certain distance
+            if (playerDistance > 30)
+            {
+                enemy1Body.velocity = (new Vector2(playerDistancex, playerDistancey)) * enemy1Speed / playerDistance;
+                shoot(1.5f);
+            }
+            else
+            {
+                enemy1Body.velocity = Vector2.zero;
+                shoot(0.75f);
+            }
         }
         else
         {
-            enemy1Body.velocity = Vector2.zero;
-            shoot(0.75f);
+            //retreat from the player
+            if (phantomDistance < retreatRange)
+            {
+                enemy1Body.velocity = (new Vector2(Random.Range(-1.0f, -0.5f) * (phantomx - transform.position.x), 
+                    Random.Range(-1.0f, -0.5f) * (phantomy - transform.position.y))) * enemy1Speed / phantomDistance;
+                shoot(0.2f);
+            }
+            else
+            {
+                enemy1Speed /= 2f;
+                retreat = false;
+            }
         }
+        
         if (enemy1HP <= 0)
         {
             Destroy(gameObject);
@@ -83,11 +119,21 @@ public class EnemyScript : MonoBehaviour
         checkDir();
     }
 
+    //Decrease HP and begin retreating when gotten hit
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Sword")
         {
-            enemy1HP -= 25;
+            enemy1HP -= 10;
+            if (enemy1HP == 50)
+            {
+                enemy1Speed *= 1.5f;
+            }
+            retreatRange = Random.Range(30, 80);
+            phantomx = player.transform.position.x;
+            phantomy = player.transform.position.y;
+            enemy1Speed *= 2f;
+            retreat = true;
         }
     }
 }
