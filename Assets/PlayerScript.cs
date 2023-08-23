@@ -9,6 +9,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject sword;
 
     float countdown = 5;
+    public float playerHP;
     public float swingTime = 0.45f;
     public float swingCool = 1.5f;
     public float speed;
@@ -25,6 +26,7 @@ public class PlayerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerHP = 100;
         transform.position = new Vector3(0, 0, 0);
         xdirection = 1;
         ydirection = 0;
