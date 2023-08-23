@@ -7,6 +7,7 @@ public class PlayerScript : MonoBehaviour
     public Rigidbody2D playerBody;
 
     public GameObject sword;
+    public GameObject playerbullet;
 
     float countdown = 5;
     public float playerHP;
@@ -78,6 +79,12 @@ public class PlayerScript : MonoBehaviour
         else
         {
             cooldown();
+        }
+
+        //shooting
+        if (Input.GetKeyDown(KeyCode.E) == true)
+        {
+            Instantiate(playerbullet, transform.position + new Vector3(7.8f * xdirection, 7.8f * ydirection, 0), transform.rotation);
         }
     }
 

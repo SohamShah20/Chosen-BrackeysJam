@@ -157,6 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerBody: {fileID: 257061459}
   sword: {fileID: 1534090125822182013, guid: a4d1a1fc9a949c047afc8e2fe9ca565f, type: 3}
+  playerbullet: {fileID: 4813860357143156432, guid: 67d44faf5ae1e9f4a91913e541ce229f, type: 3}
   playerHP: 0
   swingTime: 0.45
   swingCool: 1.5

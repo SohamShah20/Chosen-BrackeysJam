@@ -11,8 +11,8 @@ public class bullet1Script : MonoBehaviour
     float playerDistancex;
     float playerDistancey;
     float playerDistance;
-    public float cameraDistancex;
-    public float cameraDistancey;
+    float cameraDistancex;
+    float cameraDistancey;
 
     // Start is called before the first frame update
     void Start()
