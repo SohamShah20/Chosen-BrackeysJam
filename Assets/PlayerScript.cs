@@ -13,8 +13,8 @@ public class PlayerScript : MonoBehaviour
     public float swingTime = 0.45f;
     public float swingCool = 1.5f;
     public float speed;
-    public float xdirection;
-    public float ydirection;
+    float xdirection;
+    float ydirection;
 
     //cooldown
     float cooldown()
@@ -78,6 +78,14 @@ public class PlayerScript : MonoBehaviour
         else
         {
             cooldown();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Sword")
+        {
+            playerHP -= 10;
         }
     }
 }
