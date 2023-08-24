@@ -408,6 +408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 257061454}
+  playerBullet: {fileID: 0}
   enemybullet: {fileID: 7238655217887914117, guid: f4284335f68801948b0b5078e5a6ffb7, type: 3}
   enemy1Body: {fileID: 1182892113}
   enemy1Speed: 10

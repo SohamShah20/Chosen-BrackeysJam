@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyScript : MonoBehaviour
 {
     public GameObject player;
+    public GameObject playerBullet;
     public GameObject enemybullet;
     public Rigidbody2D enemy1Body;
 
@@ -84,7 +85,7 @@ public class EnemyScript : MonoBehaviour
         if (!retreat)
         {
             //chase player up to a certain distance
-            if (playerDistance > 30)
+            if (playerDistance > 50)
             {
                 enemy1Body.velocity = (new Vector2(playerDistancex, playerDistancey)) * enemy1Speed / playerDistance;
                 shoot(1.5f);
@@ -122,16 +123,31 @@ public class EnemyScript : MonoBehaviour
     //Decrease HP and begin retreating when gotten hit
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Sword")
+        playerBullet = GameObject.FindGameObjectWithTag("playerBullet"); //can't drag and drop because bullets are clones, if I use this in Start() bullets aren't created yet
+
+        if (collision.gameObject.tag == "Sword" || collision.gameObject.tag == "playerBullet")
         {
-            enemy1HP -= 10;
+            if (collision.gameObject.tag == "Sword")
+            {
+                enemy1HP -= 10;
+                retreatRange = Random.Range(30, 80);
+                phantomx = player.transform.position.x;
+                phantomy = player.transform.position.y;
+            }
+            else
+            {
+                enemy1HP -= 5;
+                retreatRange = Random.Range(10, 30);
+                phantomx = playerBullet.transform.position.x;
+                phantomy = playerBullet.transform.position.y;
+            }
+            
             if (enemy1HP == 50)
             {
                 enemy1Speed *= 1.5f;
             }
-            retreatRange = Random.Range(30, 80);
-            phantomx = player.transform.position.x;
-            phantomy = player.transform.position.y;
+            
+            
             enemy1Speed *= 2f;
             retreat = true;
         }

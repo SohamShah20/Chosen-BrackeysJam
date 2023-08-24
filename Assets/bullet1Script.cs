@@ -8,6 +8,7 @@ public class bullet1Script : MonoBehaviour
     public GameObject mainCamera;
 
     public float bullet1Speed;
+    float curveTime;
     float playerDistancex;
     float playerDistancey;
     float playerDistance;
@@ -19,15 +20,20 @@ public class bullet1Script : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-
-        playerDistancex = player.transform.position.x - transform.position.x;
-        playerDistancey = player.transform.position.y - transform.position.y;
-        playerDistance = Mathf.Sqrt(playerDistancex * playerDistancex + playerDistancey * playerDistancey);
+        curveTime = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        curveTime += Time.deltaTime;
+        if (curveTime < 0.25)
+        {
+            playerDistancex = player.transform.position.x - transform.position.x;
+            playerDistancey = player.transform.position.y - transform.position.y;
+            playerDistance = Mathf.Sqrt(playerDistancex * playerDistancex + playerDistancey * playerDistancey);
+        }
+
         transform.position += ((new Vector3(playerDistancex, playerDistancey, 0)) * bullet1Speed / playerDistance) * Time.deltaTime;
         cameraDistancex = mainCamera.transform.position.x - transform.position.x;
         cameraDistancey = mainCamera.transform.position.y - transform.position.y;

@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 191140484122088722}
   - component: {fileID: 4798104411610147038}
   - component: {fileID: 4888327191607094595}
+  - component: {fileID: -3554850620586067931}
   m_Layer: 0
   m_Name: Player Bullet
-  m_TagString: Untagged
+  m_TagString: playerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,4 +100,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 0}
   mainCam: {fileID: 0}
-  playerBulletSpeed: 0
+  playerBulletSpeed: 50
+--- !u!61 &-3554850620586067931
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4813860357143156432}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.8769474, y: 1.2443066}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 24.802656, y: 35.079998}
+    newSize: {x: 24.802656, y: 35.079998}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.2043953, y: 2.3293114}
+  m_EdgeRadius: 0

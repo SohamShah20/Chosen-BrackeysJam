@@ -8,7 +8,6 @@ public class playerBulletScript : MonoBehaviour
     public GameObject mainCam;
 
     public float playerBulletSpeed;
-    float curveTime;
     float enemyDistancex;
     float enemyDistancey;
     float enemyDistance;
@@ -20,20 +19,14 @@ public class playerBulletScript : MonoBehaviour
     {
         enemy = GameObject.FindGameObjectWithTag("Enemy");
         mainCam = GameObject.FindGameObjectWithTag("MainCamera");
-        curveTime = 0;
+        enemyDistancex = enemy.transform.position.x - transform.position.x;
+        enemyDistancey = enemy.transform.position.y - transform.position.y;
+        enemyDistance = Mathf.Sqrt(enemyDistancex * enemyDistancex + enemyDistancey * enemyDistancey);
     }
 
     // Update is called once per frame
     void Update()
     {
-        curveTime += Time.deltaTime;
-        if (curveTime < 1)
-        {
-            enemyDistancex = enemy.transform.position.x - transform.position.x;
-            enemyDistancey = enemy.transform.position.y - transform.position.y;
-            enemyDistance = Mathf.Sqrt(enemyDistancex * enemyDistancex + enemyDistancey * enemyDistancey);
-        }
-
         transform.position += ((new Vector3(enemyDistancex, enemyDistancey, 0)) * playerBulletSpeed / enemyDistance) * Time.deltaTime;
         cameraDistancex = mainCam.transform.position.x - transform.position.x;
         cameraDistancey = mainCam.transform.position.y - transform.position.y;
