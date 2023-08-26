@@ -140,13 +140,7 @@ public class EnemyScript : MonoBehaviour
                 retreatRange = Random.Range(10, 30);
                 phantomx = playerBullet.transform.position.x;
                 phantomy = playerBullet.transform.position.y;
-            }
-            
-            if (enemy1HP == 50)
-            {
-                enemy1Speed *= 1.5f;
-            }
-            
+            } 
             
             enemy1Speed *= 2f;
             retreat = true;
