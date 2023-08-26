@@ -27,7 +27,7 @@ public class bullet1Script : MonoBehaviour
     void Update()
     {
         curveTime += Time.deltaTime;
-        if (curveTime < 0.25)
+        if (curveTime < 0.5)
         {
             playerDistancex = player.transform.position.x - transform.position.x;
             playerDistancey = player.transform.position.y - transform.position.y;

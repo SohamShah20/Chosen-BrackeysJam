@@ -8,12 +8,13 @@ public class PlayerScript : MonoBehaviour
 
     public GameObject sword;
     public GameObject playerbullet;
+    public LogicScript logic;
 
     float countdown = 5;
-    public float playerHP;
     public float swingTime = 0.45f;
     public float swingCool = 1.5f;
     public float speed;
+    public float trueSpeed;
     float xdirection;
     float ydirection;
 
@@ -27,7 +28,6 @@ public class PlayerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerHP = 100;
         transform.position = new Vector3(0, 0, 0);
         xdirection = 1;
         ydirection = 0;
@@ -38,14 +38,17 @@ public class PlayerScript : MonoBehaviour
     {
         if (cooldown() > swingTime)
         {
-            speed = 25;
+            speed = trueSpeed;
         }
         //movement
         if (Input.GetKey(KeyCode.W) == true)
         {
-            transform.position += Vector3.up * speed * Time.deltaTime;
-            ydirection = 1;
-            xdirection = 0;
+            if(transform.position.y < 50)
+            {
+                transform.position += Vector3.up * speed * Time.deltaTime;
+                ydirection = 1;
+                xdirection = 0;
+            } 
         }
         if (Input.GetKey(KeyCode.S) == true)
         {
@@ -55,15 +58,21 @@ public class PlayerScript : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.A) == true)
         {
-            transform.position += Vector3.left * speed * Time.deltaTime;
-            xdirection = -1;
-            ydirection = 0;
+            if (transform.position.x > -120)
+            {
+                transform.position += Vector3.left * speed * Time.deltaTime;
+                xdirection = -1;
+                ydirection = 0;
+            }
         }
         if (Input.GetKey(KeyCode.D) == true)
         {
-            transform.position += Vector3.right * speed * Time.deltaTime;
-            xdirection = 1;
-            ydirection = 0;
+            if (transform.position.x < 120)
+            {
+                transform.position += Vector3.right * speed * Time.deltaTime;
+                xdirection = 1;
+                ydirection = 0;
+            }
         }
 
         //sword
@@ -82,17 +91,26 @@ public class PlayerScript : MonoBehaviour
         }
 
         //shooting
-        if (Input.GetKeyDown(KeyCode.E) == true)
+        if (Input.GetKeyDown(KeyCode.LeftShift) == true)
         {
-            Instantiate(playerbullet, transform.position + new Vector3(7.8f * xdirection, 7.8f * ydirection, 0), transform.rotation);
+            if (logic.bullets > 0)
+            {
+                Instantiate(playerbullet, transform.position + new Vector3(7.8f * xdirection, 7.8f * ydirection, 0), transform.rotation);
+                logic.useBullets(1);
+            }         
         }
+    }
+
+    public int depthCheck()
+    {
+        return (1000 - ((int) transform.position.y)) / 10;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Sword")
+        if (collision.gameObject.tag == "EnemyBullet")
         {
-            playerHP -= 10;
+            logic.reduceHealth(1);
         }
     }
 }

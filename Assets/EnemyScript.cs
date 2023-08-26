@@ -5,15 +5,19 @@ using UnityEngine;
 public class EnemyScript : MonoBehaviour
 {
     public GameObject player;
+    public GameObject kamera;
     public GameObject playerBullet;
     public GameObject enemybullet;
     public Rigidbody2D enemy1Body;
+    public LogicScript logic;
 
     public float enemy1Speed;
     public int enemy1HP;
+    public float shootFreq;
     float shootCooldown;
     public float xdirection;
     public float ydirection;
+    public int scoreIncrease;
     float playerDistancex;
     float playerDistancey;
     float playerDistance;
@@ -85,15 +89,19 @@ public class EnemyScript : MonoBehaviour
         if (!retreat)
         {
             //chase player up to a certain distance
+            if (kamera.transform.position.y - transform.position.y < -70)
+            {
+                transform.position = kamera.transform.position + new Vector3(0, 60, 15);
+            }
             if (playerDistance > 50)
             {
                 enemy1Body.velocity = (new Vector2(playerDistancex, playerDistancey)) * enemy1Speed / playerDistance;
-                shoot(1.5f);
+                shoot(shootFreq);
             }
             else
             {
                 enemy1Body.velocity = Vector2.zero;
-                shoot(0.75f);
+                shoot(shootFreq / 2);
             }
         }
         else
@@ -103,7 +111,7 @@ public class EnemyScript : MonoBehaviour
             {
                 enemy1Body.velocity = (new Vector2(Random.Range(-1.0f, -0.5f) * (phantomx - transform.position.x), 
                     Random.Range(-1.0f, -0.5f) * (phantomy - transform.position.y))) * enemy1Speed / phantomDistance;
-                shoot(0.2f);
+                shoot(shootFreq * 2 / 15);
             }
             else
             {
@@ -114,6 +122,8 @@ public class EnemyScript : MonoBehaviour
         
         if (enemy1HP <= 0)
         {
+            logic.increaseScore(scoreIncrease);
+            logic.raiseDifficulty(1);
             Destroy(gameObject);
         }
 
